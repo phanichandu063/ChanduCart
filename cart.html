@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Cart</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background: #f8f9fa; }
+        header { background: #28a745; color: white; padding: 20px; text-align: center; font-size: 24px; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+        header img { height: 40px; margin-right: 10px; border-radius: 5px; }
+        .cart { max-width: 800px; margin: 20px auto; background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .item { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ddd; padding: 10px 0; }
+        .item img { width: 80px; height: 80px; object-fit: contain; border-radius: 8px; }
+        .item-info { flex: 1; margin-left: 20px; }
+        .item-info h3 { margin: 0; font-size: 18px; }
+        .item-info p { color: green; font-weight: bold; }
+        .actions form { display: inline-block; margin: 0 5px; }
+        .actions button { padding: 5px 10px; border: none; border-radius: 6px; cursor: pointer; }
+        .inc { background: #007bff; color: white; }
+        .dec { background: #ffc107; color: black; }
+        .remove { background: #dc3545; color: white; }
+        .total { text-align: right; font-size: 20px; font-weight: bold; margin-top: 20px; }
+        footer { text-align: center; padding: 15px; background: #343a40; color: white; margin-top: 30px; }
+        footer a { color: yellow; }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="Logo">
+        🛍️ Your Cart
+    </header>
+
+    <div class="cart">
+        {% if cart %}
+            {% for item in cart %}
+            <div class="item">
+                <img src="{{ item.image }}" alt="{{ item.name }}">
+                <div class="item-info">
+                    <h3>{{ item.name }}</h3>
+                    <p>₹{{ item.price }} x {{ item.quantity }}</p>
+                </div>
+                <div class="actions">
+                    <form method="POST" action="/update_cart/{{ item.id }}">
+                        <input type="hidden" name="action" value="increase">
+                        <button class="inc">+</button>
+                    </form>
+                    <form method="POST" action="/update_cart/{{ item.id }}">
+                        <input type="hidden" name="action" value="decrease">
+                        <button class="dec">−</button>
+                    </form>
+                    <form method="POST" action="/update_cart/{{ item.id }}">
+                        <input type="hidden" name="action" value="remove">
+                        <button class="remove">Remove</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="total">Total: ₹{{ total }}</div>
+        {% else %}
+            <p>Your cart is empty!</p>
+        {% endif %}
+    </div>
+
+    <footer>
+        <a href="/">⬅ Back to Products</a>
+    </footer>
+</body>
+</html>
