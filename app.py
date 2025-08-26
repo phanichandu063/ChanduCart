@@ -14,7 +14,7 @@ cart = []
 
 @app.route('/')
 def home():
-    return render_template('home.html', products=products)
+    return render_template('index.html', products=products)
 
 @app.route('/add_to_cart/<int:product_id>')
 def add_to_cart(product_id):
@@ -51,4 +51,5 @@ def update_cart(product_id):
     return redirect(url_for('view_cart'))
 
 if __name__ == '__main__':
+
     app.run(debug=True)
